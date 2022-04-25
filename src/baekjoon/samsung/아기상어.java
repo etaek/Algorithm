@@ -30,7 +30,7 @@ class Fish implements Comparable<Fish>{
 		if(o.value==this.value) {
 			
 			if(this.x==o.x) {
-				return this.y-o.y;
+				return this.y-o.y; 
 			}
 			
 			return this.x-o.x;
@@ -72,9 +72,9 @@ public class 아기상어 {
         	}
         			
         }
-        
+        arr[start_x][start_y]=0;
         bfs(start_x,start_y);
-    
+        System.out.println(answer);
   
         
 
@@ -97,22 +97,33 @@ public class 아기상어 {
 				if(x>=0&&y>=0&&x<n&&y<n && arr[x][y]<=baby && score[x][y]==0) {
 					score[x][y]=score[f.x][f.y]+1;
 					
-					if(arr[x][y]<baby) {
-						
-						if(arr[x][y]!=0) {
-							list.add(new Fish(x,y,score[x][y]));
-						}
-						
-						que.add(new Fish(x,y,score[x][y]));
+					if(arr[x][y]!=0 && arr[x][y]!=baby) {
+						list.add(new Fish(x,y,score[x][y]));
 					}
+					que.add(new Fish(x,y,score[x][y]));
 				}
 			}
 		}
-		for(int i=0;i<list.size();i++) {
-			Fish f=list.get(i);
-			System.out.println(f.x+","+f.y+","+f.value);
 		
+		if(list.size()==0) {
+			return;
 		}
+		
+		Collections.sort(list);
+		Fish f=list.get(0);
+		int x=f.x;
+		int y=f.y;
+		int value=f.value;
+		
+		arr[x][y]=0;
+		answer+=value;
+		eat++;
+		if(eat==baby) {
+			eat=0;
+			baby++;
+		}
+		bfs(x,y);
+		
 	}
 
 }
